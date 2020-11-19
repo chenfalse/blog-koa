@@ -14,6 +14,7 @@ const { SECRET_SESSION_KEY } = require('./src/conf/secret')
 
 const index = require('./src/routes/index')
 const users = require('./src/routes/users')
+const utils = require('./src/routes/utils')
 
 // error handler
 onerror(app)
@@ -24,7 +25,7 @@ app.use(bodyparser({
 }))
 app.use(json())
 app.use(logger())
-//app.use(require('koa-static')(__dirname + '/public'))
+app.use(require('koa-static')(__dirname + '/uploadFiles'))
 
 //session
 app.keys = [SECRET_SESSION_KEY]
@@ -47,6 +48,7 @@ app.use(parameter(app))
 // routes
 app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
+app.use(utils.routes(), utils.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {

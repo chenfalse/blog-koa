@@ -54,9 +54,7 @@ router.post('/login', async (ctx, next) => {
       type: 'string'
     }
   })
-
   ctx.body = await login(ctx, userName, password)
-
 })
 
 module.exports = router
