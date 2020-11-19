@@ -9,7 +9,8 @@ const {
   register,
   login,
   changeInfo,
-  changePasswrod
+  changePasswrod,
+  logout
 } = require('../controller/users')
 router.prefix('/api/users')
 
@@ -91,6 +92,11 @@ router.post('/changePassword', async (ctx, next) => {
     }
   })
   ctx.body = await changePasswrod(ctx, { password, newPassword })
+})
+
+// 退出登录
+router.get('/logout', async (ctx, next) => {
+  ctx.body = await logout(ctx)
 })
 
 module.exports = router

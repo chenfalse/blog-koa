@@ -145,11 +145,30 @@ async function changePasswrod(ctx, { password, newPassword }) {
   })
 }
 
+/**
+ * 退出登录
+ * @param {ctx} ctx 
+ */
+async function logout(ctx) {
+  try {
+    delete ctx.session.userInfo
+    return new SuccessModel({
+      message: '退出成功'
+    })
+  } catch (error) {
+    console.error(error)
+    return new ErrorModel({
+      errno: 10009,
+      message: '退出失败'
+    })
+  }
+}
 
 module.exports = {
   isExist,
   register,
   login,
   changeInfo,
-  changePasswrod
+  changePasswrod,
+  logout
 }
