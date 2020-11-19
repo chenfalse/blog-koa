@@ -120,9 +120,36 @@ async function changeInfo(ctx, { gender, picture, city }) {
   })
 }
 
+/**
+ * 修改密码
+ * @param {object} { password, newPassword } 新旧密码
+ */
+async function changePasswrod(ctx, { password, newPassword }) {
+  const { userName } = ctx.session.userInfo
+
+  const result = await updateUserInfo({
+    newPassword: doCrypto(newPassword)
+  }, {
+    userName,
+    password: doCrypto(password)
+  })
+
+  if(result) {
+    return new SuccessModel({
+      message: '密码修改成功'
+    })
+  }
+  return new ErrorModel({
+    errno: 10008,
+    message: '密码修改失败'
+  })
+}
+
+
 module.exports = {
   isExist,
   register,
   login,
-  changeInfo
+  changeInfo,
+  changePasswrod
 }

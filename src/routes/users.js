@@ -8,7 +8,8 @@ const {
   isExist,
   register,
   login,
-  changeInfo
+  changeInfo,
+  changePasswrod
 } = require('../controller/users')
 router.prefix('/api/users')
 
@@ -76,6 +77,20 @@ router.post('/changeInfo', async (ctx, next) => {
     },
   })
   ctx.body = await changeInfo(ctx, { gender, picture, city })
+})
+
+// 修改密码
+router.post('/changePassword', async (ctx, next) => {
+  const { password, newPassword } = ctx.request.body
+  ctx.verifyParams({
+    password: {
+      type: 'string'
+    },
+    newPassword: {
+      type: 'string'
+    }
+  })
+  ctx.body = await changePasswrod(ctx, { password, newPassword })
 })
 
 module.exports = router

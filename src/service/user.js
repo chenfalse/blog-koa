@@ -53,11 +53,11 @@ async function createUser({ userName, password, nickName }) {
 /**
  * 
  * @param {object} { newGender, newPicture, newCity, newPassword } 更新内容
- * @param {object} { username, passwrod } 查询条件 
+ * @param {object} { username, password } 查询条件 
  */
 async function updateUserInfo(
   { newGender, newPicture, newCity, newPassword },
-  { userName, passwrod }
+  { userName, password }
 ) {
   let newOpt = {}
   if(newGender) {
@@ -70,14 +70,14 @@ async function updateUserInfo(
     newOpt.city = newCity
   }
   if(newPassword) {
-    newOpt.passwrod = newPassword
+    newOpt.password = newPassword
   }
 
   let whereOpt = {
     userName
   }
-  if(passwrod) {
-    whereOpt.password = passwrod
+  if(password) {
+    whereOpt.password = password
   }
   const result = await User.update(newOpt, {
     where: whereOpt
