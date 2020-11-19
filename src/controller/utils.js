@@ -7,9 +7,9 @@ const path = require('path')
 const fse = require('fs-extra')
 const { ErrorModel } = require('../model/ResModel')
 
-const MAX_SIZE = 1024 * 1024 * 1024 * 2
+const MAX_SIZE = 1024 * 1024 * 1024 * 2 //文件体积
 
-const DIST_FILE_PATH = path.join(__dirname, '..', '..', 'uploadFiles')
+const DIST_FILE_PATH = path.join(__dirname, '..', '..', 'uploadFiles') // 文件存放目录
 
 fse.pathExists(DIST_FILE_PATH).then(exists => {
   if(!exists) {
@@ -17,6 +17,12 @@ fse.pathExists(DIST_FILE_PATH).then(exists => {
   }
 })
 
+/**
+ * 图片上传
+ * @param {string} name 文件名称
+ * @param {string} size 文件体积
+ * @param {string} filePath 文件路径
+ */
 async function uploadImg({ name, size, filePath }) {
 
   if(size > MAX_SIZE) {

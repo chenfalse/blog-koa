@@ -50,7 +50,45 @@ async function createUser({ userName, password, nickName }) {
   return userRes.dataValues
 }
 
+/**
+ * 
+ * @param {object} { newGender, newPicture, newCity, newPassword } 更新内容
+ * @param {object} { username, passwrod } 查询条件 
+ */
+async function updateUserInfo(
+  { newGender, newPicture, newCity, newPassword },
+  { userName, passwrod }
+) {
+  let newOpt = {}
+  if(newGender) {
+    newOpt.gender = newGender
+  }
+  if(newPicture) {
+    newOpt.picture = newPicture
+  }
+  if(newCity) {
+    newOpt.city = newCity
+  }
+  if(newPassword) {
+    newOpt.passwrod = newPassword
+  }
+
+  let whereOpt = {
+    userName
+  }
+  if(passwrod) {
+    whereOpt.password = passwrod
+  }
+  const result = await User.update(newOpt, {
+    where: whereOpt
+  })
+
+  return result[0] > 0
+
+}
+
 module.exports = {
   getUserInfo,
-  createUser
+  createUser,
+  updateUserInfo
 }

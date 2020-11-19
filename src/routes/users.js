@@ -7,7 +7,8 @@ const router = require('koa-router')()
 const {
   isExist,
   register,
-  login
+  login,
+  changeInfo
 } = require('../controller/users')
 router.prefix('/api/users')
 
@@ -55,6 +56,26 @@ router.post('/login', async (ctx, next) => {
     }
   })
   ctx.body = await login(ctx, userName, password)
+})
+
+// 修改个人信息
+router.post('/changeInfo', async (ctx, next) => {
+  const { gender, picture, city } = ctx.request.body
+  ctx.verifyParams({
+    gender: {
+      type: 'number',
+      required: false
+    },
+    picture: {
+      type: 'string',
+      required: false
+    },
+    city: {
+      type: 'string',
+      required: false
+    },
+  })
+  ctx.body = await changeInfo(ctx, { gender, picture, city })
 })
 
 module.exports = router

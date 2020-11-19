@@ -3,7 +3,11 @@
  * @author 陈佳兵
  */
 
-const { getUserInfo, createUser } = require('../service/user')
+const { 
+  getUserInfo, 
+  createUser, 
+  updateUserInfo 
+} = require('../service/user')
 const { SuccessModel, ErrorModel } = require('../model/ResModel')
 const doCrypto = require('../utils/doCrypto')
 
@@ -82,8 +86,43 @@ async function login(ctx, userName, password) {
   })
 }
 
+/**
+ * 修改个人信息
+ * @param {string} gender 性别 1男 2nv 3保密
+ * @param {string} picture 图片
+ * @param {string} city 城市
+ */
+async function changeInfo(ctx, { gender, picture, city }) {
+  const { userName } = ctx.session.userInfo
+  const result = await updateUserInfo(
+    {
+      newGender: gender,
+      newPicture: picture,
+      newCity: city
+    },
+    {
+      userName
+    }
+  )
+  if(result) {
+    Object.assign(ctx.session.userInfo, {
+      gender,
+      picture,
+      city
+    })
+    return new SuccessModel({
+      message: '更新用户信息成功'
+    })
+  }
+  return new ErrorModel({
+    errno: 10006,
+    message: '更新失败'
+  })
+}
+
 module.exports = {
   isExist,
   register,
-  login
+  login,
+  changeInfo
 }

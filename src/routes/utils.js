@@ -8,6 +8,7 @@ const koaForm = require("formidable-upload-koa")
 const { uploadImg } = require('../controller/utils') 
 router.prefix('/api/utils')
 
+// 上传图片
 router.post('/upload', koaForm(), async (ctx, next) => {
   const files = ctx.req.files
   for(let key in files) {
